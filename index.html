@@ -7,6 +7,16 @@
     html { height: 100% }
     body { height: 100%; margin: 0px; padding: 0px }
     #map_canvas { height: 100% }
+    .story h2{
+      font-size: 15px;
+      font-weight: normal;
+      display: inline;
+    }
+    .story{
+      font-size: 15px;
+      color: #000;
+      height: 50px;
+    }
   </style>
   <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=true"></script>
 </head>
@@ -27,6 +37,8 @@
         scaleControl: false,
         streetViewControl: false,
         overviewMapControl: false,
+        scrollwheel: false,
+        draggable: false,
         mapTypeId: google.maps.MapTypeId.ROADMAP
       };
       return new google.maps.Map(document.getElementById("map_canvas"),
@@ -45,10 +57,9 @@
         marker.setMap(map);
 
         google.maps.event.addListener(marker, 'mouseover', function() {
-          var $el = $('<div><h2></h2><span class="place"></span><p></p><a>Más info</a></div>');
+          var $el = $('<div><a class="story"><h2></h2> - <span class="place"></span></a></div>');
           $el.find('h2').text(markerInfo.title);
-          $el.find('.place').text(markerInfo.place);
-          $el.find('p').text(markerInfo.description);
+          $el.find('.place').text(markerInfo.place);          
           $el.find('a').attr('href', markerInfo.url);
           infowindow.setOptions({
             content: $el.html()
