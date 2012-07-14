@@ -1,0 +1,45 @@
+h1{
+  text-transform: uppercase;
+}
+h2 {
+  margin-left: 20px;
+}
+
+.content{
+  position: relative;
+}
+.links {
+  list-style-type: none;  
+  right: 100px;
+  position: absolute;
+  font-size: 20px;  
+}
+.links li {
+  margin-bottom: 10px;
+}
+.links a{
+  text-decoration: none;
+}
+.links a:hover{
+  text-decoration: underline;
+}
+.links img {
+  vertical-align: middle;
+  margin-right: 10px;
+}
+#map_canvas { 
+  height: 500px;
+  width: 700px;
+  margin: auto;
+}
+
+.story .title {
+  font-size: 15px;
+  font-weight: normal;
+  display: inline;
+}
+.story{
+  font-size: 15px;
+  color: #000;
+  height: 50px;
+}

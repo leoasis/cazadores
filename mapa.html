@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+  <link href="style.css" media="all" rel="stylesheet" type="text/css">  
+  <link href="mapa.css" media="all" rel="stylesheet" type="text/css">  
+  <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=true"></script>
+</head>
+<body>
+  <h1>Cazadores de Historias Urbanas</h1>
+  <div class="content">
+    <h2>Elegí una historia...</h2>
+    <ul class="links">
+      <li><a href="#"><img src="img/facebook.png" width="30" height="30" /> Facebook</a></li>
+      <li><a href="#"><img src="img/twitter.png" width="30" height="30" /> Twitter</a></li>
+      <li><a href="#">Concurso</a></li>
+    </ul>
+    <div id="map_canvas"></div>
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script src="markers.js"></script>
+  <script type="text/javascript">
+    function initialize() {
+      var latlng = new google.maps.LatLng(-34.619082,-58.422203);
+      var myOptions = {
+        zoom: 12,
+        center: latlng,
+        disableDefaultUI: true,
+        panControl: false,
+        zoomControl: false,
+        mapTypeControl: false,
+        scaleControl: false,
+        streetViewControl: false,
+        overviewMapControl: false,
+        scrollwheel: false,
+        draggable: false,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      };
+      return new google.maps.Map(document.getElementById("map_canvas"),
+          myOptions);
+    }
+    $(function(){
+      var map = initialize();
+      var infowindow = new google.maps.InfoWindow();
+      function setMarker(markerInfo, map){
+        var latlng = new google.maps.LatLng(markerInfo.lat, markerInfo.lng);
+        var marker = new google.maps.Marker({
+          position: latlng,
+          title: markerInfo.title
+        });
+        
+        marker.setMap(map);
+
+        google.maps.event.addListener(marker, 'mouseover', function() {
+          var $el = $('<div><a class="story"><span class="title"></span> - <span class="place"></span></a></div>');
+          $el.find('.title').text(markerInfo.title);
+          $el.find('.place').text(markerInfo.place);          
+          $el.find('a').attr('href', markerInfo.url);
+          infowindow.setOptions({
+            content: $el.html()
+          });
+          infowindow.open(map,marker);
+        });
+        google.maps.event.addListener(marker, 'click', function() {          
+          window.location.href = $(infowindow.getContent()).attr('href');
+        });
+        google.maps.event.addListener(map, "click", function(){
+          infowindow.close();
+        });
+      }
+
+      for (var i in markers){
+        setMarker(markers[i], map);
+      }      
+    });
+  </script>
+</body>
+</html>
